@@ -10,7 +10,7 @@ exports.up = function(knex) {
       .string("title", 128)
       .notNullable()
       .unique();
-    notes.string("note-text", 400).notNullable();
+    notes.string("note_text", 400).notNullable();
   });
 };
 
