@@ -6,6 +6,7 @@ const db = knex(knexConfig.development);
 module.exports = {
   find,
   findById,
+  findByUserId,
   add,
   update,
   remove
@@ -16,8 +17,15 @@ function find() {
   return db("notes");
 }
 
-//Get all notes by a specific user
+//Get a note by ID
 function findById(id) {
+  return db("notes")
+    .where({ id })
+    .first();
+}
+
+//Get all notes by a specific user
+function findByUserId(id) {
   return db("notes")
     .join("users", "users.id", "notes.user_id")
     .select("notes.id", "notes.title", { user: "users.username" })

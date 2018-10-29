@@ -2,7 +2,6 @@ const express = require("express");
 
 const notes = require("./notesModel.js");
 
-const knex = require("knex");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -17,7 +16,7 @@ router.get("/", (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
-//Get all the notes by a specified user
+// Get a note by ID
 router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -28,6 +27,23 @@ router.get("/:id", async (req, res) => {
       res.status(200).json(note);
     } else {
       res.status(404).json({ message: "Note not found" });
+    }
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+//Get all the notes by a specified user
+router.get("/user/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const note = await notes.findByUserId(id);
+
+    if (note) {
+      res.status(200).json(note);
+    } else {
+      res.status(404).json({ message: "Notes not found" });
     }
   } catch (error) {
     res.status(500).json(error);
