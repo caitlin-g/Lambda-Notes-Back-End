@@ -65,4 +65,20 @@ router.post("/", (req, res) => {
     });
 });
 
+// delete a note
+router.delete("/:id", (req, res) => {
+  const { id } = req.params;
+
+  notes
+    .remove(id)
+    .then(note => {
+      if (!note) {
+        res.status(404).json({ message: "No notes found to delete" });
+      } else {
+        res.status(200).json({ message: "Note deleted successfully!" });
+      }
+    })
+    .catch(err => res.status(500).json(err));
+});
+
 module.exports = router;
