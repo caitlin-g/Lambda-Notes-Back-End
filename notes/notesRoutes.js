@@ -1,35 +1,29 @@
 const express = require("express");
 
+const notes = require("./notesModel.js");
+
 const knex = require("knex");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const knexConfig = require("../knexfile.js");
-
-const db = knex(knexConfig.development);
-
 //Get a list of all notes
-router.get("/notes", (req, res) => {
-  db("notes")
-    .select("id", "title", "note_text")
+router.get("/", (req, res) => {
+  notes
+    .find()
     .then(notes => {
-      res.json(notes);
+      res.status(200).json(notes);
     })
-    .catch(err => res.send(err));
+    .catch(err => res.status(500).json(err));
 });
 
 //Add a new note
-router.post("/notes", (req, res) => {
+router.post("/", (req, res) => {
   const { user_id, title, note_text } = req.body;
   const note = { user_id, title, note_text };
 
-  //   if (!title || !user_id || note_text) {
-  //     return res.status(400).json({
-  //       error: "Please provide a title, user ID, and text for your notes."
-  //     });
-  //   }
-  db.add(note)
+  notes
+    .add(note)
     .then(ids => {
       res.status(201).json(ids[0]);
     })
