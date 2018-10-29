@@ -81,4 +81,23 @@ router.delete("/:id", (req, res) => {
     .catch(err => res.status(500).json(err));
 });
 
+// update a note
+router.put("/:id", (req, res) => {
+  const { id } = req.params;
+  const changes = req.body;
+
+  notes
+    .update(id, changes)
+    .then(note => {
+      if (!note) {
+        res.status(404).json({ message: "No note found to update." });
+      } else {
+        res
+          .status(200)
+          .json({ message: `The note with the id ${id} was updated!` });
+      }
+    })
+    .catch(err => res.status(500).json(err));
+});
+
 module.exports = router;
