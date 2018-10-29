@@ -11,10 +11,12 @@ module.exports = {
   remove
 };
 
+//Get all notes
 function find() {
   return db("notes");
 }
 
+//Get all notes by a specific user
 function findById(id) {
   return db("notes")
     .join("users", "users.id", "notes.user_id")
@@ -22,18 +24,21 @@ function findById(id) {
     .where("notes.user_id", id);
 }
 
+//Add a note
 function add(note) {
   return db("notes")
     .insert(note)
     .into("notes");
 }
 
+//Update a note
 function update(id, changes) {
   return db("notes")
     .where({ id })
     .update(changes);
 }
 
+//Delete a note
 function remove(id) {
   return db("notes")
     .where({ id })
