@@ -3,8 +3,6 @@ const express = require("express");
 const notes = require("./notesModel.js");
 
 const router = express.Router();
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 
 //Get a list of all notes
 router.get("/", (req, res) => {
